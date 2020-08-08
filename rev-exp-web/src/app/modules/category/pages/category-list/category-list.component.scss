@@ -1,0 +1,19 @@
+.category-list{
+    width: 80%;
+    margin: 0 auto;
+
+    .header {
+        background: cornflowerblue;
+        border-radius: 5px;
+
+        .title {
+            color: white;
+        }
+    }
+
+    table.mat-table {
+        border-spacing: 0;
+        width: 100%;
+    }
+}
+
