@@ -1,0 +1,32 @@
+<div>
+  <mat-form-field
+    [appearance]="appearance"
+    [floatLabel]="floatLabel"
+    class="mat-form-overview"
+  >
+    <mat-label>{{ label }}</mat-label>
+    <input
+      matInput
+      (input)="onTyping($event)"
+      [required]="required"
+      [readonly]="readonly"
+      [value]="defaultValue"
+      [placeholder]="placeholder"
+      type="text"
+    />
+  </mat-form-field>
+  <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+  <div class="error">
+    <ng-container *ngFor="let error of errors">
+      <mat-error *ngIf="hasError(error?.name) && control.dirty">
+        <div>{{ errorMessages[error.name](label) }}</div>
+      </mat-error>
+    </ng-container>
+    <ng-container>
+      <mat-error *ngIf="control?.errors != null">
+        {{ errorMessage }}
+      </mat-error>
+    </ng-container>
+  </div>
+
+</div>
