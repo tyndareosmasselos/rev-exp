@@ -22,7 +22,7 @@ export class CategoryController {
     }
 
     // add a category
-    @Post('/create')
+    @Post('')
     async addCategory(@Res() res, @Body() createCategoryDTO: CreateCategoryDTO) {
         const category = await this.categoryService.addCategory(createCategoryDTO);
         return res.status(HttpStatus.OK).json({
