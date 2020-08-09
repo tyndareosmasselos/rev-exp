@@ -1,0 +1,26 @@
+// actions
+.action-header {
+    text-align: center !important;
+}
+
+.action-cell {
+    text-align: center;
+}
+
+// spinner
+.spinner-center {
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+// mat-dialog
+.mat-dialog-container {
+    padding: 0 !important;
+}
+
+.dialog-title {
+    color: white;
+}
