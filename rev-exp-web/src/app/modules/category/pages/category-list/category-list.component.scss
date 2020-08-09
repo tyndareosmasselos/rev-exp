@@ -2,8 +2,11 @@
     width: 80%;
     margin: 0 auto;
 
+    .mat-elevation-z8 {
+        position: relative;
+    }
+
     .header {
-        background: cornflowerblue;
         border-radius: 5px;
 
         .title {

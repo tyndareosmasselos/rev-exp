@@ -1,3 +1,10 @@
-<p>
-  category-form-dialog works!
-</p>
+<div class="category-form-dialog">
+  <mat-toolbar dark fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="dialog-title">{{ title[dialogArgs.type] }}</div>
+  </mat-toolbar>
+  <form class="p-2" [formGroup]="categoryForm">
+    <input-text label="Name" formControlName="name"></input-text>
+    <input-select label="Type" formControlName="type" [selectOptions]="selectOptions" valueType="string"></input-select>
+    <button class="btn-sbmt mt-2" (click)="submit()" primary [disabled]="categoryForm.invalid" mat-flat-button>Submit</button>
+  </form>
+</div>

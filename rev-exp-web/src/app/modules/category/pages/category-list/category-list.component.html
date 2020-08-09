@@ -1,14 +1,23 @@
 <mat-progress-bar *ngIf="showProgressBar" mode="indeterminate"></mat-progress-bar>
 <div class="category-list">
-  <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center" class="mt-4 mb-4 header">
+  <mat-toolbar dark fxLayout="row" fxLayoutAlign="space-between center" class="mt-4 mb-4 header">
     <div class="title">Categories</div>
     <div>
-      <button mat-fab color="primary">
+      <button (click)="add()" primary mat-fab color="primary">
         <mat-icon>add</mat-icon>
       </button>
     </div>
   </mat-toolbar>
   <div class="mat-elevation-z8">
+    <ngx-spinner
+      [fullScreen]="false" 
+      type="ball-clip-rotate-multiple" 
+      size="medium"
+      bdColor="51,51,51,0.8"
+      color="#4527a0"
+    >
+    </ngx-spinner>
+
     <table mat-table [dataSource]="dataSource">
       <!-- Name Column -->
       <ng-container matColumnDef="name">
@@ -16,22 +25,34 @@
         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
       </ng-container>
   
-      <!-- Weight Column -->
+      <!-- Type Column -->
       <ng-container matColumnDef="type">
         <th mat-header-cell *matHeaderCellDef> Type </th>
-        <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+        <td mat-cell *matCellDef="let element">
+          <div style="width: 100px;" fxLayoutGap="10px" fxLayout="row" fxLayoutAlign="space-between  center" >
+            <div>{{ element.type }}</div>
+            <mat-icon [style.color]="icon[element.type]">payments</mat-icon>
+          </div>
+        </td>
       </ng-container>
   
-      <!-- Symbol Column -->
+      <!-- Actions Column -->
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
-        <td mat-cell *matCellDef="let element"></td>
+        <th class="action-header" mat-header-cell *matHeaderCellDef> Actions </th>
+        <td class="action-cell" mat-cell *matCellDef="let element">
+          <button (click)="edit(element)" primary class="mr-2" mat-mini-fab aria-label="edit">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button (click)="onDelete(element)" error mat-mini-fab aria-label="delete">
+            <mat-icon>remove</mat-icon>
+          </button>
+        </td>
       </ng-container>
   
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-  
+    
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
   </div>
 </div>

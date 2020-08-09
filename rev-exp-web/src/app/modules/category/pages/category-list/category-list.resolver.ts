@@ -1,6 +1,8 @@
 import { Injectable, isDevMode } from "@angular/core";
 import { Resolve, ActivatedRoute, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { BehaviorSubject, Observable } from "rxjs";
+
+// services
 import { CategoryService } from "../../services/category.service";
 
 @Injectable({
@@ -10,32 +12,19 @@ export class CategoryListDataResolver implements Resolve<any> {
     pageData: any;
     onPageDataChanged: BehaviorSubject<any>;
 
-    /**
-     * contructor
-     * @param pagesService  pages data service
-     * @param claimsService  claims data service
-     */
-    constructor(private categoryService: CategoryService, private activatedRoute: ActivatedRoute) {
+    constructor(
+        private categoryService: CategoryService, 
+        private activatedRoute: ActivatedRoute
+        ) {
         // Set the defaults
         this.onPageDataChanged = new BehaviorSubject({});
     }
 
-    /**
-     * Resolver
-     *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<any> | Promise<any> | any}
-     */
     resolve(
     ): Observable<any> | Promise<any> | any {
         return this.getPageData();
     }
 
-    /**
-     * Get page data
-     * @returns {Promise<any>}
-     */
     getPageData(): Promise<any> {
         return new Promise((resolve, reject) => {
             this.categoryService.getAll()
@@ -48,6 +37,7 @@ export class CategoryListDataResolver implements Resolve<any> {
                             pageData: this.pageData
                         })
                     }
+                    // this.spinnerService.hide();
                     resolve(pageData);
                 }, reject);
         });
