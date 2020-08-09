@@ -1,0 +1,9 @@
+<button
+  fxLayoutGap="10px" fxLayout="row" fxLayoutAlign="center center" 
+  class="navigation-btn active" 
+  [routerLink]="[navigation.path]" routerLinkActive="router-link-active"  
+  *ngFor="let navigation of navigations"
+>
+  <mat-icon>{{ navigation.icon }}</mat-icon>
+  <div> {{ navigation.text }}</div>
+</button>
