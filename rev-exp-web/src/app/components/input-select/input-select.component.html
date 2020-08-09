@@ -1,0 +1,46 @@
+<div
+>
+  <mat-form-field
+    class="mat-form-overview"
+    [floatLabel]="floatLabel"
+    [appearance]="appearance"
+  >
+    <mat-label>{{ label }}</mat-label>
+    <div
+      fxLayout="row"
+      fxLayoutAlign="space-between center"
+      style="width: 100%;"
+    >
+      <mat-select
+        [disabled]="disabled"
+        (ngModelChange)="onClick($event)"
+        [placeholder]="placeholder"
+        [compareWith]="objectComparisonFunction"
+        [(ngModel)]="defaultValue"
+      >
+        <mat-option
+          [class.hide]="readonly"
+          *ngFor="
+            let lu of selectOptions;
+            let i = index;
+            trackBy: trackByOption
+          "
+          [value]="lu"
+          style="z-index: -2; position: relative; padding: 0;"
+        >
+          <div
+            style="
+              position: relative;
+              width: 100%;
+              z-index: 999;
+              padding: 0 10px;
+            "
+          >
+            {{ getDisplayMember(lu) }}
+          </div>
+        </mat-option>
+      </mat-select>
+    </div>
+    <mat-hint>{{ hint }}</mat-hint>
+  </mat-form-field>
+</div>
