@@ -24,3 +24,19 @@
 .dialog-title {
     color: white;
 }
+
+// mat-drawer
+.mat-drawer-container {
+    height: 100%
+}
+
+.mat-drawer {
+    width: 150px;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background: #2b2b2b; 
+}
+
+.mat-drawer-content{
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background: #121212; 
+}
