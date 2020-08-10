@@ -7,6 +7,9 @@ export class Transaction extends Document {
   name: string;
 
   @Prop()
+  amount: number;
+
+  @Prop()
   categoryID: string;
 
   @Prop()
