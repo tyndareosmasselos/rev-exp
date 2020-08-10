@@ -1,3 +1,14 @@
-<p>
-  calendar works!
-</p>
+<div class="calendar mt-4">
+  <div class="calendar_header" fxLayout="row" fxLayoutAlign="space-between center" >
+    <button (click)="previousMonth()" mat-mini-fab color="primary" aria-label="previous month">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="date" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+      <div class="month">{{ months[selectedMonth] }}</div>
+      <div class="year">{{ selectedYear }}</div>
+    </div>
+    <button (click)="nextMonth()" mat-mini-fab color="primary" aria-label="next month">
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </div>
+</div>
