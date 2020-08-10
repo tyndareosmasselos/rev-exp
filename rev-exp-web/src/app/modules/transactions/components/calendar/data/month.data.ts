@@ -12,3 +12,13 @@ export const MONTHS = {
     "10": "November",
     "11": "December"
 }
+
+export const FIRST_DAYS_MAP = {
+    "0": 6,
+    "1": 0,
+    "2": 1,
+    "3": 2,
+    "4": 3,
+    "5": 4,
+    "6": 5
+}

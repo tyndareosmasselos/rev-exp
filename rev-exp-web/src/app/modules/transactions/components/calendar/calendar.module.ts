@@ -11,6 +11,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 // @material
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import {MatIconModule} from '@angular/material/icon';
 
     MatButtonModule,
     MatIconModule,
+    MatCardModule,
 
     // libs
     FlexLayoutModule

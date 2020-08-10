@@ -1,5 +1,7 @@
 <div class="calendar mt-4">
-  <div class="calendar_header" fxLayout="row" fxLayoutAlign="space-between center" >
+
+  <!-- <calendar-header> -->
+  <div class="calendar__header" fxLayout="row" fxLayoutAlign="space-between center" >
     <button (click)="previousMonth()" mat-mini-fab color="primary" aria-label="previous month">
       <mat-icon>arrow_back</mat-icon>
     </button>
@@ -11,4 +13,21 @@
       <mat-icon>arrow_forward</mat-icon>
     </button>
   </div>
+  <!-- </calendar-header> -->
+
+  <!-- <calendar-body> -->
+    <div class="calendar__day__header" fxLayout="row wrap" fxLayoutAlign="start center">
+      <div class="calendar__day__name" *ngFor="let day of days" fxFlex="14.27">
+        {{ day }}
+      </div>
+    </div>
+    <!-- </calendar-body> -->
+
+  <!-- <calendar-body> -->
+  <div class="calendar__content" fxLayout="row wrap" fxLayoutAlign="start center">
+    <div class="calendar__day" *ngFor="let day of dayBlocks" fxFlex="14.27">
+      <mat-card class="calendar__cell">{{ day }}</mat-card>
+    </div>
+  </div>
+  <!-- </calendar-body> -->
 </div>

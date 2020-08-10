@@ -5,7 +5,16 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 
-    &_header {
+    &__header {
         padding: 5px 10px;
+    }
+
+    &__day {
+        padding: 1px;
+    }
+
+    &__cell {
+        border-radius: 0;
+        height: 70px;
     }
 }
