@@ -1,0 +1,26 @@
+<div
+>
+  <mat-form-field
+    class="mat-form-overview"
+    [appearance]="appearance"
+    [floatLabel]="floatLabel"
+  >
+    <mat-label>{{ label }}</mat-label>
+    <input
+      [readonly]="readonly"
+      [(ngModel)]="value"
+      matInput
+      [matDatepicker]="datepickerID"
+      [placeholder]="placeholder"
+    />
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="datepickerID"
+    ></mat-datepicker-toggle>
+    <mat-datepicker
+      #datepickerID
+      [disabled]="disabled || readonly"
+    ></mat-datepicker>
+    <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+  </mat-form-field>
+</div>
