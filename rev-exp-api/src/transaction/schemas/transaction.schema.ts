@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import * as mongoose from 'mongoose';
 
 @Schema()
 export class Transaction extends Document {
@@ -10,7 +11,10 @@ export class Transaction extends Document {
   amount: number;
 
   @Prop()
-  categoryID: string;
+  category_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+  }
 
   @Prop()
   created: number;

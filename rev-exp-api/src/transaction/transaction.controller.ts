@@ -22,7 +22,7 @@ export class TransactionController {
     @Get(':transactionID')
     async getTransaction(@Res() res, @Param('transactionID') transactionID) {
         const transaction = await this.transactionService.getTransaction(transactionID);
-        if (!transaction) throw new NotFoundException('Category does not exist!');
+        if (!transaction) throw new NotFoundException('Transaction does not exist!');
         return res.status(HttpStatus.OK).json(transaction);
     }
 

@@ -10,13 +10,16 @@ export class TransactionService {
 
     // fetch all transactions
     async getAllTransactions(minDate: number, maxDate: number): Promise<Transaction[]> {
-        console.log(minDate, maxDate);
         const transactions = await this.transactionModel
             .find({
                 "created": {
                     $gte: minDate,
                     $lte: maxDate
                 }
+            })
+            .populate({
+                path: "category_id",
+                model: "Category"
             })
             .exec();
         return transactions;
