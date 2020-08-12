@@ -1,0 +1,12 @@
+<div class="transaction-form-dialog">
+  <mat-toolbar dark fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="dialog-title">Create Transaction</div>
+  </mat-toolbar>
+  <form class="p-2" [formGroup]="transactionForm">
+    <input-text label="Name" formControlName="name"></input-text>
+    <input-text label="Amount" formControlName="amount"></input-text>
+    <input-text label="Created" formControlName="created"></input-text>
+    <input-select label="Category" formControlName="category_id" [selectOptions]="dialogArgs.categories" valueType="string"></input-select>
+    <button class="btn-sbmt mt-2" (click)="submit()" primary [disabled]="transactionForm.invalid" mat-flat-button>Submit</button>
+  </form>
+</div>

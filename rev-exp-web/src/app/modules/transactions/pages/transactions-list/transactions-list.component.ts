@@ -2,6 +2,10 @@ import { Component, OnInit, isDevMode } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 
+// services
+import { MatDialog } from '@angular/material/dialog';
+import { TransactionFormDialogComponent } from '../../dialogs/transaction-form-dialog/transaction-form-dialog.component';
+
 @Component({
   selector: 'app-transactions-list',
   templateUrl: './transactions-list.component.html',
@@ -13,7 +17,8 @@ export class TransactionsListComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -32,8 +37,22 @@ export class TransactionsListComponent implements OnInit {
     });
   }
 
-  add(){
-
+  async add(){
+    const dialogRef = await this.dialog.open(TransactionFormDialogComponent, {
+      panelClass: 'transaction-form-dialog',
+      height: null,
+      width: '60vw',
+      data: {
+        categories: []
+      }
+    });
+    await dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.spinner.show();
+      }
+    })
   }
+
+
 
 }

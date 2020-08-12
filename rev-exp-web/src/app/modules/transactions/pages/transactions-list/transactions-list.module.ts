@@ -17,14 +17,16 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 
 // libs
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { TransactionFormDialogModule } from '../../dialogs/transaction-form-dialog/transaction-form-dialog.module';
 
 @NgModule({
   imports: [
     CommonModule,
 
-    //cmodules
+    // modules
     CalendarModule,
     ColorModule,
+    TransactionFormDialogModule,
 
     // material
     MatToolbarModule,
