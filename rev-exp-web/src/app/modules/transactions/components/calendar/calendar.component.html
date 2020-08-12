@@ -25,8 +25,11 @@
 
   <!-- <calendar-body> -->
   <div class="calendar__content" fxLayout="row wrap" fxLayoutAlign="start center">
-    <div class="calendar__day" *ngFor="let day of dayBlocks" fxFlex="14.27">
-      <mat-card class="calendar__cell">{{ day }}</mat-card>
+    <div class="calendar__day" *ngFor="let block of dayBlocks" fxFlex="14.27">
+      <mat-card class="calendar__cell">
+        <div>{{ block?.day }}</div>
+        <div>{{ block?.total }}</div>
+      </mat-card>
     </div>
   </div>
   <!-- </calendar-body> -->

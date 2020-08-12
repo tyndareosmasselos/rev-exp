@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TransactionFormDialogComponent } from '../../dialogs/transaction-form-dialog/transaction-form-dialog.component';
 import { CategoryModel } from '../../../../models/categoy.model';
 import { TransactionService } from '../../services/transaction.service';
+import { Subject, BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-transactions-list',
@@ -14,9 +15,12 @@ import { TransactionService } from '../../services/transaction.service';
   styleUrls: ['./transactions-list.component.scss']
 })
 export class TransactionsListComponent implements OnInit {
+  calendarSubject =  new BehaviorSubject<any>({});
   dataSource: any[] = [];
   categories: CategoryModel[] = [];
   showProgressBar = false;
+
+  test: any = {}
 
   constructor(
     private route: ActivatedRoute,
@@ -30,6 +34,18 @@ export class TransactionsListComponent implements OnInit {
     .pipe()
     .subscribe((routeData) => {
         this.dataSource = routeData.pageData || [];
+
+        this.dataSource.forEach(transaction => {
+          let created = new Date(transaction.created * 1000);
+          let day = created.getDate();
+          let amount =  transaction.category_id.type == "expense" ? -transaction.amount : transaction.amount
+          let total = this.test[day]?.total || 0
+          this.test[day] = {...this.test[day], ...{
+            total: total + amount
+          }}
+        })
+        this.calendarSubject.next(this.test);
+        console.log(this.test);
         this.categories = routeData.categories || []; 
         this.showProgressBar = false;
         this.spinner.hide();
@@ -62,7 +78,4 @@ export class TransactionsListComponent implements OnInit {
       }
     })
   }
-
-
-
 }
