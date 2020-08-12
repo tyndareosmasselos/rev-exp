@@ -32,6 +32,7 @@ export class TransactionService {
 
   // Create a transaction
   create(transaction: TransactionModel){
+    console.log("create",transaction);
     return this.http.post(this.baseURL, transaction).pipe(map(x => x)).toPromise();
   }
 

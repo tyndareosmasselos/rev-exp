@@ -11,6 +11,7 @@ import { InputSelectModule } from '../../../../components/input-select/input-sel
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ColorModule } from '../../../../shared/color/color.module';
+import { InputDateModule } from '../../../../components/input-date/input-date.module';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { ColorModule } from '../../../../shared/color/color.module';
     // modules
     InputTextModule,
     InputSelectModule,
+    InputDateModule,
     ColorModule,
 
     // @material

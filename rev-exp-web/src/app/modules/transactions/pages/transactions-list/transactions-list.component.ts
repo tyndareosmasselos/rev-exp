@@ -5,6 +5,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 // services
 import { MatDialog } from '@angular/material/dialog';
 import { TransactionFormDialogComponent } from '../../dialogs/transaction-form-dialog/transaction-form-dialog.component';
+import { CategoryModel } from '../../../../models/categoy.model';
+import { TransactionService } from '../../services/transaction.service';
 
 @Component({
   selector: 'app-transactions-list',
@@ -13,10 +15,12 @@ import { TransactionFormDialogComponent } from '../../dialogs/transaction-form-d
 })
 export class TransactionsListComponent implements OnInit {
   dataSource: any[] = [];
+  categories: CategoryModel[] = [];
   showProgressBar = false;
 
   constructor(
     private route: ActivatedRoute,
+    private transaction: TransactionService,
     private spinner: NgxSpinnerService,
     private dialog: MatDialog
   ) { }
@@ -26,6 +30,7 @@ export class TransactionsListComponent implements OnInit {
     .pipe()
     .subscribe((routeData) => {
         this.dataSource = routeData.pageData || [];
+        this.categories = routeData.categories || []; 
         this.showProgressBar = false;
         this.spinner.hide();
         if (isDevMode()) {
@@ -43,12 +48,17 @@ export class TransactionsListComponent implements OnInit {
       height: null,
       width: '60vw',
       data: {
-        categories: []
+        categories: this.categories || []
       }
     });
     await dialogRef.afterClosed().subscribe(result => {
+      this.spinner.show();
       if(result){
-        this.spinner.show();
+        this.transaction.create(result.data).then(res => {
+          this.spinner.hide()
+        }).catch(err => {
+          this.spinner.hide()
+        })
       }
     })
   }

@@ -63,6 +63,7 @@ export class InputTextComponent
   @Input() defaultValue: string = '';
   @Input() required: boolean;
   @Input() readonly: boolean;
+  @Input() type: string = "text";
 
   errors = [];
   errorMessages = ERROR_MESSAGES;
