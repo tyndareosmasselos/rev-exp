@@ -9,8 +9,16 @@ export class TransactionService {
     constructor(@InjectModel('Transaction') private readonly transactionModel: Model<Transaction>) { }
 
     // fetch all transactions
-    async getAllTransactions(): Promise<Transaction[]> {
-        const transactions = await this.transactionModel.find().exec();
+    async getAllTransactions(minDate: number, maxDate: number): Promise<Transaction[]> {
+        console.log(minDate, maxDate);
+        const transactions = await this.transactionModel
+            .find({
+                "created": {
+                    $gte: minDate,
+                    $lte: maxDate
+                }
+            })
+            .exec();
         return transactions;
     }
 

@@ -1,15 +1,20 @@
-import { Controller, Get, Res, HttpStatus, NotFoundException, Param, Body, Put, Post, Delete } from '@nestjs/common';
+import { Controller, Get, Res, HttpStatus, NotFoundException, Param, Body, Put, Post, Delete, Query } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { CreateTransactionDTO } from './dto/create-transaction.dto';
+
+interface DateFilter {
+    minDate?: number;
+    maxDate?: number;
+}
 
 @Controller('transaction')
 export class TransactionController {
     constructor(private transactionService: TransactionService) { }
 
     // Retrieve transaction list
-    @Get('')
-    async getAllTransactions(@Res() res) {
-        const transactions = await this.transactionService.getAllTransactions();
+    @Get('filter')
+    async getAllTransactions(@Res() res, @Query() query: DateFilter) {
+        const transactions = await this.transactionService.getAllTransactions(query.minDate, query.maxDate);
         return res.status(HttpStatus.OK).json(transactions);
     }
 
