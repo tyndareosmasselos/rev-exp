@@ -1,1 +1,11 @@
-<calendar></calendar>
+<div class="transaction-list">
+    <mat-toolbar dark fxLayout="row" fxLayoutAlign="space-between center" class="mt-4 mb-4 header">
+        <div class="title">Transactions</div>
+        <div>
+          <button (click)="add()" primary mat-fab color="primary">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </mat-toolbar>
+    <calendar></calendar>
+</div>

@@ -1,0 +1,21 @@
+.transaction-list {
+    width: 80%;
+    margin: 0 auto;
+
+    .mat-elevation-z8 {
+        position: relative;
+    }
+
+    .header {
+        border-radius: 5px;
+
+        .title {
+            color: white;
+        }
+    }
+
+    table.mat-table {
+        border-spacing: 0;
+        width: 100%;
+    }
+}

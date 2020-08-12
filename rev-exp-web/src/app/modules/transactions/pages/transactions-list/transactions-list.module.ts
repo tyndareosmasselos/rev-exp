@@ -6,13 +6,35 @@ import { TransactionsListComponent } from './transactions-list.component';
 
 //modules
 import { CalendarModule } from '../../components/calendar/calendar.module';
+import { ColorModule } from '../../../../shared/color/color.module';
+
+// material
+import {MatButtonModule} from '@angular/material/button';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDialogModule} from '@angular/material/dialog';
+import { MatToolbarModule } from '@angular/material/toolbar';
+
+// libs
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   imports: [
     CommonModule,
 
-    //modules
-    CalendarModule
+    //cmodules
+    CalendarModule,
+    ColorModule,
+
+    // material
+    MatToolbarModule,
+    MatProgressBarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDialogModule,
+
+    // libs
+    FlexLayoutModule
   ],
   exports: [TransactionsListComponent],
   declarations: [TransactionsListComponent]

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { TransactionModel } from '../../../models/transaction.model';
 
@@ -13,8 +13,14 @@ export class TransactionService {
   constructor(private http: HttpClient) { }
 
   // Get all transactions
-  getAll(){
-    return this.http.get(this.baseURL);
+  getAll(minDate: number, maxDate: number){
+    let body = new HttpParams({
+      fromObject : {
+        'minDate' : minDate.toString(),
+        'maxDate' : maxDate.toString()
+      }
+    })
+    return this.http.get(this.baseURL + "filter", { params: body });
   }
 
   // Delete a transaction
