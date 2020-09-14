@@ -11,6 +11,9 @@ export class Transaction extends Document {
   amount: number;
 
   @Prop()
+  day: number;
+
+  @Prop()
   category_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',

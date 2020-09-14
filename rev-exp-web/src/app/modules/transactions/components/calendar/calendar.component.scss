@@ -11,10 +11,22 @@
 
     &__day {
         padding: 1px;
+
+        &__name {
+            text-align: center;
+        }
     }
 
     &__cell {
         border-radius: 0;
         height: 70px;
     }
+}
+
+
+.total {
+    color: green;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
 }

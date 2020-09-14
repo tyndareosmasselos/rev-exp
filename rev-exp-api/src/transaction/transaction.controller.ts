@@ -15,6 +15,9 @@ export class TransactionController {
     @Get('filter')
     async getAllTransactions(@Res() res, @Query() query: DateFilter) {
         const transactions = await this.transactionService.getAllTransactions(query.minDate, query.maxDate);
+        transactions.forEach(tr => {
+            tr.day = new Date(tr.created * 1000).getDate()
+        })
         return res.status(HttpStatus.OK).json(transactions);
     }
 

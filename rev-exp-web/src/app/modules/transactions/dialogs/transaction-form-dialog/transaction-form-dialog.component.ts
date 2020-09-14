@@ -33,11 +33,13 @@ export class TransactionFormDialogComponent implements OnInit {
   }
 
   submit(){
+    let date = new Date(this.transactionForm.value['created']);
+    date.setHours(date.getHours() + 3);
     let value = {
       name: this.transactionForm.value['name'],
       amount: this.transactionForm.value['amount'],
       category_id: this.transactionForm.value['category_id']._id,
-      created: new Date(this.transactionForm.value['created']).getTime() /1000,
+      created: date.getTime() /1000,
     }
     this.dialogRef.close({
       data: value

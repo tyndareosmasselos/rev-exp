@@ -2,7 +2,10 @@ import { Component, OnInit, isDevMode, Input, ChangeDetectorRef } from '@angular
 import { MONTHS } from './data/month.data';
 import { CalendarUtils } from './helpers/calendar.utils';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
-import { skip } from 'rxjs/operators';
+import { skip, take } from 'rxjs/operators';
+import { TransactionService } from '../../services/transaction.service';
+import { MatDialog } from '@angular/material/dialog';
+import { TransactionListDialogComponent } from './dialogs/transaction-list-dialog/transaction-list-dialog.component';
 
 @Component({
   selector: 'calendar',
@@ -23,7 +26,7 @@ export class CalendarComponent implements OnInit {
   readonly months = MONTHS;
   readonly days = ["MON", "TUE", 'WED', "THU", "FRI", "SAT", "SUN"]
 
-  constructor(private cdr: ChangeDetectorRef) { }
+  constructor(private cdr: ChangeDetectorRef, private dialog: MatDialog, private dataService: TransactionService) { }
 
   ngOnInit() {
     let today = new Date();
@@ -39,28 +42,99 @@ export class CalendarComponent implements OnInit {
         total: null
       }
     })
-    if(isDevMode()){
-      console.log(`${CalendarComponent.name} ngOnInit`, {
-        selectedMonth: this.selectedMonth,
-        selectedYear: this.selectedYear,
-        totalDays: this.totalDays
-      });
-    }
-    this.subject.pipe().subscribe(res => {
-      console.log("receive res", res);
-      console.log("blcok", this.dayBlocks);
-      Object.keys(res).forEach(key => {
-        let index = this.dayBlocks.findIndex(x => {
-          if(x == null){
-            return false
-          }
-          return x.day == key
+    let minDate = new Date(this.selectedYear, this.selectedMonth, 1);
+    minDate.setHours(minDate.getHours() + 3);
+    let min = minDate.getTime()/1000;
+    let nextMonth = CalendarUtils.nextMonth(this.selectedMonth, this.selectedYear);
+    let maxDate = new Date(nextMonth.year, nextMonth.month, 1);
+    maxDate.setHours(maxDate.getHours() + 2);
+    let max = maxDate.getTime()/1000;
+    console.log("init", min, max);
+    this.dataService.getAll(min, max)
+    .pipe(take(1))
+    .subscribe((response:any) => {
+      console.log("init", response);
+        let pageData = response.payload ?? response;
+        let transactions = pageData as any[];
+        transactions.forEach(tr => {
+          Object.keys({...this.dayBlocks}).forEach(key => {
+            if(this.dayBlocks[key]?.day == tr.day){
+              let block = this.dayBlocks[key];
+              let total = block.total;
+              if(total){
+                block.total = tr.category_id.type == "expense" ? total - tr.amount : total + tr.amount
+              } else {
+                block.total = tr.amount
+              }
+              let trans = block?.trans;
+              if(trans){
+                this.dayBlocks[key].trans.push(tr)
+              } else {
+                this.dayBlocks[key].trans = [tr]
+              }
+            }
+          })
         })
-        this.dayBlocks[index] = {...this.dayBlocks[index], ...res[key]}
-      })
-      console.log('receive', this.dayBlocks);
-      this.cdr.detectChanges();
     })
+  }
+
+  async open(trans: any[]){
+    if(trans){
+      const dialogRef = await this.dialog.open(TransactionListDialogComponent, {
+        panelClass: 'category-form-dialog',
+        height: null,
+        width: '60vw',
+        data: trans
+      });
+      await dialogRef.afterClosed().subscribe(result => {
+        if(result == undefined || result == true){
+          this.dayBlocks = []
+          let totalDays = CalendarUtils.totalDays(this.selectedMonth, this.selectedYear);
+          this.dayBlocks = CalendarUtils.getDayBlocks(totalDays, this.selectedMonth, this.selectedYear).map(block =>{
+            if(block == null){
+              return null
+            }
+            return {
+              day: block,
+              total: null
+            }
+          })
+          let minDate = new Date(this.selectedYear, this.selectedMonth, 1);
+          minDate.setHours(minDate.getHours() + 3);
+          let min = minDate.getTime()/1000;
+          let nextMonth = CalendarUtils.nextMonth(this.selectedMonth, this.selectedYear);
+          let maxDate = new Date(nextMonth.year, nextMonth.month, 1);
+          maxDate.setHours(maxDate.getHours() + 2);
+          let max = maxDate.getTime()/1000;
+          console.log("init", minDate, maxDate);
+          this.dataService.getAll(min, max)
+          .pipe(take(1))
+          .subscribe((response:any) => {
+              let pageData = response.payload ?? response;
+              let transactions = pageData as any[];
+              transactions.forEach(tr => {
+                Object.keys({...this.dayBlocks}).forEach(key => {
+                  if(this.dayBlocks[key]?.day == tr.day){
+                    let block = this.dayBlocks[key];
+                    let total = block.total;
+                    if(total){
+                      block.total = tr.category_id.type == "expense" ? total - tr.amount : total + tr.amount
+                    } else {
+                      block.total = tr.amount
+                    }
+                    let trans = block?.trans;
+                    if(trans){
+                      this.dayBlocks[key].trans.push(tr)
+                    } else {
+                      this.dayBlocks[key].trans = [tr]
+                    }
+                  }
+                })
+              })
+          })
+        }
+      })
+    }
   }
 
   // calculate new month
@@ -78,14 +152,39 @@ export class CalendarComponent implements OnInit {
         total: null
       }
     })
-    if(isDevMode()){
-      console.log(`${CalendarComponent.name} next month res`, {
-        selectedMonth: this.selectedMonth,
-        selectedYear: this.selectedYear,
-        totalDays: this.totalDays,
-        dayBlocks: this.dayBlocks
-      });
-    }
+    let minDate = new Date(this.selectedYear, this.selectedMonth, 1);
+    minDate.setHours(minDate.getHours() + 3);
+    let min = minDate.getTime()/1000;
+    let nextMonth = CalendarUtils.nextMonth(this.selectedMonth, this.selectedYear);
+    let maxDate = new Date(nextMonth.year, nextMonth.month, 1);
+    maxDate.setHours(maxDate.getHours() + 2);
+    let max = maxDate.getTime()/1000;
+    console.log("init", minDate, maxDate);
+    this.dataService.getAll(min, max)
+    .pipe(take(1))
+    .subscribe((response:any) => {
+        let pageData = response.payload ?? response;
+        let transactions = pageData as any[];
+        transactions.forEach(tr => {
+          Object.keys({...this.dayBlocks}).forEach(key => {
+            if(this.dayBlocks[key]?.day == tr.day){
+              let block = this.dayBlocks[key];
+              let total = block.total;
+              if(total){
+                block.total = tr.category_id.type == "expense" ? total - tr.amount : total + tr.amount
+              } else {
+                block.total = tr.amount
+              }
+              let trans = block?.trans;
+              if(trans){
+                this.dayBlocks[key].trans.push(tr)
+              } else {
+                this.dayBlocks[key].trans = [tr]
+              }
+            }
+          })
+        })
+    })
   }
 
   // calculate previous month
@@ -103,14 +202,39 @@ export class CalendarComponent implements OnInit {
         total: null
       }
     })
-    if(isDevMode()){
-      console.log(`${CalendarComponent.name} previous month res`, {
-        selectedMonth: this.selectedMonth,
-        selectedYear: this.selectedYear,
-        totalDays: this.totalDays,
-        dayBlocks: this.dayBlocks
-      });
-    }
+    let minDate = new Date(this.selectedYear, this.selectedMonth, 1);
+    minDate.setHours(minDate.getHours() + 3);
+    let min = minDate.getTime()/1000;
+    let nextMonth = CalendarUtils.nextMonth(this.selectedMonth, this.selectedYear);
+    let maxDate = new Date(nextMonth.year, nextMonth.month, 1);
+    maxDate.setHours(maxDate.getHours() + 2);
+    let max = maxDate.getTime()/1000;
+    console.log("init", minDate, maxDate);
+    this.dataService.getAll(min, max)
+    .pipe(take(1))
+    .subscribe((response:any) => {
+        let pageData = response.payload ?? response;
+        let transactions = pageData as any[];
+        transactions.forEach(tr => {
+          Object.keys({...this.dayBlocks}).forEach(key => {
+            if(this.dayBlocks[key]?.day == tr.day){
+              let block = this.dayBlocks[key];
+              let total = block.total;
+              if(total){
+                block.total = tr.category_id.type == "expense" ? total - tr.amount : total + tr.amount
+              } else {
+                block.total = tr.amount
+              }
+              let trans = block?.trans;
+              if(trans){
+                this.dayBlocks[key].trans.push(tr)
+              } else {
+                this.dayBlocks[key].trans = [tr]
+              }
+            }
+          })
+        })
+    })
   }
 
 }

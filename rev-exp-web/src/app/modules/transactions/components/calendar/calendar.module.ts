@@ -12,11 +12,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
+import { TransactionListDialogModule } from './dialogs/transaction-list-dialog/transaction-list-dialog.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+
+    TransactionListDialogModule,
 
     MatButtonModule,
     MatIconModule,

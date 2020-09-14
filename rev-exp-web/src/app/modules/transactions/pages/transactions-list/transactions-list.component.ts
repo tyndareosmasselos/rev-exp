@@ -34,18 +34,7 @@ export class TransactionsListComponent implements OnInit {
     .pipe()
     .subscribe((routeData) => {
         this.dataSource = routeData.pageData || [];
-
-        this.dataSource.forEach(transaction => {
-          let created = new Date(transaction.created * 1000);
-          let day = created.getDate();
-          let amount =  transaction.category_id.type == "expense" ? -transaction.amount : transaction.amount
-          let total = this.test[day]?.total || 0
-          this.test[day] = {...this.test[day], ...{
-            total: total + amount
-          }}
-        })
-        this.calendarSubject.next(this.test);
-        console.log(this.test);
+        this.calendarSubject.next(this.dataSource);
         this.categories = routeData.categories || []; 
         this.showProgressBar = false;
         this.spinner.hide();

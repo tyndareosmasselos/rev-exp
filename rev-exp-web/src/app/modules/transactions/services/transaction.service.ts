@@ -25,7 +25,7 @@ export class TransactionService {
 
   // Delete a transaction
   async delete(id: string){
-    this.http.delete(this.baseURL + id).pipe(map(x => {
+    return this.http.delete(this.baseURL + id).pipe(map(x => {
       return x;
     })).toPromise()
   }

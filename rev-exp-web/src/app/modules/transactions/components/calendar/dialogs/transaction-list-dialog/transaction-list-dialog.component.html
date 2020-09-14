@@ -1,0 +1,13 @@
+<mat-list role="list">
+  <mat-list-item style="width: 100%;padding: 0" *ngFor="let transaction of data" role="listitem">
+   <div style="width: 100%;" fxLayout="row" fxLayoutAlign="space-between center">
+    <div style="color:red" *ngIf="transaction?.category_id?.type == 'expense'">{{ transaction?.amount }}</div>
+    <div style="color:green" *ngIf="transaction?.category_id?.type != 'expense'">{{ transaction?.amount }}</div>
+    <div>{{ transaction?.category_id?.name }}</div>
+    <button (click)="onDelete(transaction)" error mat-mini-fab aria-label="delete">
+      <mat-icon>remove</mat-icon>
+    </button>
+   </div>
+
+  </mat-list-item>
+</mat-list>

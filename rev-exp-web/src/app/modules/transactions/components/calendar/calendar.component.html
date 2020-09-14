@@ -25,10 +25,10 @@
 
   <!-- <calendar-body> -->
   <div class="calendar__content" fxLayout="row wrap" fxLayoutAlign="start center">
-    <div class="calendar__day" *ngFor="let block of dayBlocks" fxFlex="14.27">
+    <div (click)="open(block?.trans)" class="calendar__day" *ngFor="let block of dayBlocks" fxFlex="14.27">
       <mat-card class="calendar__cell">
         <div>{{ block?.day }}</div>
-        <div>{{ block?.total }}</div>
+        <div *ngIf="block?.total && block?.total != 0" class="total" [style.color]="block?.total > 0 ? 'green' : 'red'">{{ block?.total }}</div>
       </mat-card>
     </div>
   </div>
