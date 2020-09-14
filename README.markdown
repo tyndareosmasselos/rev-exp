@@ -8,11 +8,13 @@
 ## For Nest (API)
 
 > cd/rev-exp-api
+> npm i
 > nest run
 
 ## For Angular (front-end)
 
 > cd/rev-epi-web
+> npm i
 > ng serve
 
 ## Chrome or other web clients
