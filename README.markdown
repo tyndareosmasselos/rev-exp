@@ -9,7 +9,7 @@
 
 > cd/rev-exp-api
 > npm i
-> nest run
+> nest start
 
 ## For Angular (front-end)
 
@@ -19,3 +19,9 @@
 
 ## Chrome or other web clients
 > http://localhost:4200
+
+## Database
+MongoDb Cloud Atlas
+
+## Video
+![image info](./app.gif)
